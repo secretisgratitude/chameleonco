@@ -233,10 +233,10 @@ test('inbound SMS with Twilio configured acks at once, then 01co answers by REST
   let done;
   const finished = new Promise(resolve => { done = resolve; });
   await withServer(async () => '', async ({ base, dir }) => {
-    const response = await fetch(base + '/sms', { method: 'POST', headers: { 'Content-Type': 'application/x-www-form-urlencoded' }, body: new URLSearchParams({ From: '+15551234567', To: '+15104013633', Body: 'can we partner?' }) });
+    const response = await fetch(base + '/sms', { method: 'POST', headers: { 'Content-Type': 'application/x-www-form-urlencoded' }, body: new URLSearchParams({ From: '+15551234567', To: '+15105550100', Body: 'can we partner?' }) });
     assert.equal(await response.text(), '<?xml version="1.0" encoding="UTF-8"?><Response></Response>');
     await finished;
-    assert.deepEqual(sent, [['+15104013633', '+15551234567', 'Eric will reply today.']]);
+    assert.deepEqual(sent, [['+15105550100', '+15551234567', 'Eric will reply today.']]);
     assert.match(told[0], /^Needs you: \+15551234567/);
     assert.match(await readFile(join(dir, 'leads.jsonl'), 'utf8'), /"route":"eric"/);
   }, {
