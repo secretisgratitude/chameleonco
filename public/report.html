@@ -1,0 +1,157 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="robots" content="noindex">
+<title>Your plan | ChameleonCo</title>
+<link rel="icon" type="image/png" href="/brand/favicon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@500;700;800&family=Figtree:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{color-scheme:light;--ground:#EEF3EC;--ink:#16241A;--muted:#4a5d4f;--leaf:#1F7A45;--leaf-deep:#155a32;--sun:#E8B04A;--sun-soft:#fbf1dc;--soft:#E3F1E6;--paper:#fff;--border:#c9dccc}
+*{box-sizing:border-box}
+body{margin:0;background:var(--ground);color:var(--ink);font:1rem/1.6 Figtree,system-ui,sans-serif}
+.wrap{max-width:960px;margin:0 auto;padding-inline:max(16px,4vw)}
+header.bar{display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap;padding-block:18px;border-bottom:1px solid var(--border)}
+.brand{font:800 1.25rem 'Bricolage Grotesque',sans-serif;color:var(--ink);text-decoration:none}
+.brand span{color:var(--leaf)}
+.actions{display:flex;gap:8px;flex-wrap:wrap}
+button,.button{border:1px solid var(--leaf);background:var(--paper);color:var(--leaf);border-radius:10px;padding:9px 14px;font:600 .92rem Figtree,system-ui,sans-serif;cursor:pointer;text-decoration:none}
+button.primary{background:var(--leaf);color:#fff}
+button:focus-visible,a:focus-visible{outline:3px solid var(--sun);outline-offset:2px}
+h1,h2,h3{font-family:'Bricolage Grotesque',sans-serif;line-height:1.15;letter-spacing:-.02em;text-wrap:balance}
+.hero{padding-block:34px 10px}
+.eyebrow{text-transform:uppercase;letter-spacing:.12em;font-size:.76rem;font-weight:700;color:var(--leaf)}
+.hero h1{font-size:clamp(1.9rem,5vw,3.3rem);margin:6px 0 6px;overflow-wrap:anywhere}
+.hero h1 .site{display:block;color:var(--leaf)}
+.offer .promise{display:block;font:700 1.15rem/1.35 'Bricolage Grotesque',sans-serif;margin-bottom:8px}
+.offer .line{display:block;font-size:.95rem;margin-top:4px}
+.meta{color:var(--muted);font-size:.95rem}
+.summary{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;margin:26px 0}
+@media(max-width:720px){.summary{grid-template-columns:1fr}}
+.tile{background:var(--paper);border:1px solid var(--border);border-radius:16px;padding:18px 20px}
+.tile h2{font-size:.8rem;text-transform:uppercase;letter-spacing:.1em;color:var(--muted);font-family:Figtree,system-ui,sans-serif;margin:0 0 8px}
+.tile p{margin:0}
+.tile.offer{background:var(--sun-soft);border-color:#ecd49b}
+.tile.first{background:var(--leaf);border-color:var(--leaf);color:#fff}
+.tile.first h2{color:#d6ecdc}
+.gate-now{font:800 2.4rem/1 'Bricolage Grotesque',sans-serif;color:var(--leaf)}
+.ladder{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:4px;margin-top:12px}
+.rung{height:8px;border-radius:4px;background:var(--soft)}
+.rung.on{background:var(--leaf)}
+.ladder-labels{display:flex;justify-content:space-between;font-size:.72rem;color:var(--muted);margin-top:4px}
+section.block{margin:34px 0}
+section.block>h2{font-size:1.6rem;margin:0 0 12px}
+.todo{list-style:none;padding:0;margin:0;display:grid;gap:12px}
+.todo li{background:var(--paper);border:1px solid var(--border);border-radius:16px;padding:16px 18px;display:grid;grid-template-columns:auto minmax(0,1fr);overflow-wrap:anywhere;gap:6px 14px;align-items:start}
+.todo input{width:22px;height:22px;margin-top:3px;accent-color:var(--leaf)}
+.todo li.done{opacity:.6}
+.todo .who{font-weight:700}
+.todo .why,.todo .by{color:var(--muted);font-size:.92rem}
+.msg{grid-column:2;white-space:pre-wrap;background:var(--ground);border-radius:10px;padding:12px 14px;margin:6px 0 4px;font-size:.97rem}
+.row{grid-column:2;display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.row a{color:var(--leaf);font-weight:600}
+.questions{background:var(--paper);border:1px dashed var(--leaf);border-radius:16px;padding:6px 20px}
+.card{background:var(--paper);border:1px solid var(--border);border-radius:16px;padding:6px 22px 12px;margin:14px 0;overflow-wrap:anywhere}
+.card h2{font-size:1.3rem;margin:16px 0 6px}
+.card table{border-collapse:collapse;width:100%;display:block;overflow-x:auto}
+.card td{border-bottom:1px solid var(--border);padding:6px 8px;vertical-align:top}
+blockquote{margin:8px 0;padding:8px 14px;border-left:4px solid var(--sun);background:var(--sun-soft);border-radius:6px}
+footer{border-top:1px solid var(--border);padding-block:24px 40px;color:var(--muted);font-size:.93rem}
+footer a{color:var(--leaf);font-weight:700}
+#status{padding-block:60px;text-align:center}
+.toast{position:fixed;bottom:calc(18px + env(safe-area-inset-bottom,0px));left:50%;transform:translateX(-50%);background:var(--ink);color:#fff;padding:10px 16px;border-radius:10px;font-size:.92rem}
+@media print{
+  body{background:#fff;font-size:11pt}
+  .actions,.toast,button,.todo input,footer .cta{display:none!important}
+  .tile,.card,.todo li,.questions{break-inside:avoid;border-color:#bbb}
+  .tile.first{background:#fff;color:var(--ink);border:2px solid var(--leaf)}
+  .tile.first h2{color:var(--muted)}
+  .msg{background:#f4f4f4}
+  a{color:var(--ink)}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style></head>
+<body>
+<header class="wrap bar"><a class="brand" href="/">01co <span>Chameleon</span></a><div class="actions"><button id="copy-link" type="button">Copy link</button><button id="print" class="primary" type="button">Save as PDF</button></div></header>
+<main class="wrap">
+<p id="status" role="status">Loading your plan...</p>
+<div id="report" hidden>
+  <div class="hero"><div class="eyebrow">Your first-customer plan</div><h1 id="title"></h1><div class="meta" id="meta"></div></div>
+  <div class="summary">
+    <div class="tile"><h2>Where you are</h2><div class="gate-now" id="gate-now">G?</div><p id="gate-label"></p><div class="ladder" id="ladder"></div><div class="ladder-labels"><span>G0 a buyer you can name</span><span>G5 it happens again</span></div></div>
+    <div class="tile"><h2>Why buyers stall</h2><p id="stall"></p></div>
+    <div class="tile offer"><h2>The offer to make</h2><p id="offer"></p></div>
+    <div class="tile first"><h2>Do this today</h2><p id="first"></p></div>
+  </div>
+  <section class="block" id="todo-block"><h2>Send these, in order</h2><ol class="todo" id="todo"></ol></section>
+  <section class="block" id="questions-block" hidden><h2>Answer these to sharpen the plan</h2><div class="questions" id="questions"></div></section>
+  <section class="block"><h2>The full plan</h2><div id="sections"></div></section>
+</div>
+</main>
+<footer class="wrap"><p>Written by Chameleon, the expert half of 01co's AI co-founders. Every message is a draft: you read it, you send it.</p><p class="cta">Want one for another project? <a href="/app">Get your plan in about 3 minutes</a>.</p></footer>
+<script>
+const $=id=>document.getElementById(id);
+function escapeHTML(value){return String(value).replace(/[\u0001\u0002]/g,'').replace(/[&<>"']/g,ch=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]));}
+function inline(text){
+  const parts=[];
+  const encoded=escapeHTML(text).replace(/\[([^\]\n]+)\]\((https?:\/\/[^\s)]+)\)/g,(_,label,url)=>{let parsed;try{parsed=new URL(url.replace(/&amp;/g,'&'));}catch{return label;}if(!['http:','https:'].includes(parsed.protocol))return label;const index=parts.push('<a href="'+escapeHTML(parsed.href)+'" rel="noopener" target="_blank">'+label+'</a>')-1;return '\u0001'+index+'\u0002';});
+  return encoded.replace(/\*\*([^*\n]+)\*\*/g,'<strong>$1</strong>').replace(/\*([^*\n]+)\*/g,'<em>$1</em>').replace(/\u0001(\d+)\u0002/g,(_,index)=>parts[Number(index)]);
+}
+function markdown(text){
+  const lines=String(text).split(/\r?\n/), out=[];let list=false,table=false;
+  function close(){if(list){out.push('</ul>');list=false}if(table){out.push('</table>');table=false}}
+  for(const line of lines){if(!line.trim()){close();continue}
+    if(/^\|.*\|$/.test(line)){if(/^\|[\s:|-]+\|$/.test(line))continue;if(list){out.push('</ul>');list=false}if(!table){out.push('<table>');table=true}out.push('<tr>'+line.slice(1,-1).split('|').map(cell=>'<td>'+inline(cell.trim())+'</td>').join('')+'</tr>');continue}
+    if(table){out.push('</table>');table=false}
+    const heading=line.match(/^(#{1,4})\s+(.+)/);if(heading){close();const level=heading[1].length;out.push('<h'+level+'>'+inline(heading[2])+'</h'+level+'>');continue}
+    const bullet=line.match(/^\s*(?:[-*]|\d+\.)\s+(.+)/);if(bullet){if(!list){out.push('<ul>');list=true}out.push('<li>'+inline(bullet[1])+'</li>');continue}
+    if(list){out.push('</ul>');list=false}
+    if(/^>\s?/.test(line)){out.push('<blockquote>'+inline(line.replace(/^>\s?/,''))+'</blockquote>');continue}
+    out.push('<p>'+inline(line)+'</p>')
+  }close();return out.join('');
+}
+const GATES=['a buyer you can name','the problem is real','someone says yes to a next step','a yes to a price','money lands','it happens again'];
+function element(tag,className,text){const node=document.createElement(tag);if(className)node.className=className;if(text!==undefined)node.textContent=text;return node}
+function toast(text){const t=element('div','toast',text);document.body.append(t);setTimeout(()=>t.remove(),1800)}
+function copy(text,label){navigator.clipboard.writeText(text).then(()=>toast(label||'Copied'),()=>toast('Could not copy'))}
+function plain(text){return String(text||'').replace(/\*\*|\*|`/g,'').replace(/\[([^\]]+)\]\([^)]+\)/g,'$1').trim()}
+function lead(body){const lines=String(body||'').split(/\n/).map(l=>l.trim()).filter(l=>l&&!/^\|/.test(l)&&!/^#/.test(l)&&!/^I can['’]?t\b|\(assumed\)\.?$/i.test(l));const bold=String(body||'').match(/\*\*([^*\n]{12,240}[^:*\n])\*\*(?!:)/);return plain(bold?bold[1]:(lines[0]||'').replace(/^[-*]\s+|^\d+\.\s+/,''))}
+function field(body,labels){for(const label of labels){const m=String(body||'').match(new RegExp('\\*\\*'+label.replace(/[()]/g,'\\$&')+'[^*\\n]*?:\\*\\*\\s*(.+)','i'));if(m){const text=plain(m[1]).replace(/^"|"$/g,'');return text.length>220?text.slice(0,text.lastIndexOf(' ',217))+'...':text}}return ''}
+function firstSentence(text){const m=String(text).match(/^(.{20,200}?[.!?])(\s|$)/);return m?m[1]:text}
+function host(input){try{return new URL(String(input).trim()).hostname.replace(/^www\./,'')}catch{return ''}}
+const id=location.pathname.split('/')[2]||'';
+$('copy-link').addEventListener('click',()=>copy(location.href,'Link copied'));
+$('print').addEventListener('click',()=>window.print());
+fetch('/api/report/'+encodeURIComponent(id)).then(async r=>{const v=await r.json();if(!r.ok)throw Error(v.error);return v}).then(report=>{
+  const site=host(report.input);
+  $('title').replaceChildren(document.createTextNode(site?'Plan for':'Your plan'));if(site)$('title').append(element('span','site',site));
+  document.title=(site?site+' plan':'Your plan')+' | ChameleonCo';
+  const when=report.createdAt?new Date(report.createdAt):null;
+  $('meta').textContent=(when&&!isNaN(when)?when.toLocaleDateString(undefined,{month:'long',day:'numeric',year:'numeric'})+' · ':'')+report.drafts.length+' messages ready to send';
+  const find=title=>report.sections.find(s=>s.title===title);
+  const gateBody=find('Where you are (gate)')?.body||'';
+  const g=gateBody.match(/\bG([0-5])\b/);const n=g?Number(g[1]):null;
+  $('gate-now').textContent=n===null?'Not set':'G'+n;
+  $('gate-label').textContent=n===null?lead(gateBody):GATES[n];
+  for(let i=0;i<6;i++){const r=element('div','rung'+(n!==null&&i<=n?' on':''));r.title='G'+i+': '+GATES[i];$('ladder').append(r)}
+  const stallBody=find("Why it's stalling")?.body;const stall=field(stallBody,['The fundamental','The work'])||lead(stallBody)||'See the full plan below.';$('stall').textContent=stall.charAt(0).toUpperCase()+stall.slice(1);
+  const offerBody=find('The offer, aligned')?.body;const promise=field(offerBody,['Value proposition']);const offer=firstSentence(field(offerBody,['Offer']));const price=firstSentence(field(offerBody,['Price']));$('offer').replaceChildren();if(promise)$('offer').append(element('strong','promise','"'+promise+'"'));for(const [k,v] of [['Offer',offer],['Price',price]])if(v){const line=element('span','line');line.append(element('b',null,k+': '),document.createTextNode(v));$('offer').append(line)}if(!$('offer').childNodes.length)$('offer').textContent=lead(offerBody)||'See the full plan below.';
+  const first=report.drafts[0];
+  $('first').textContent=first?'Send the first message below to '+plain(first.to)+(first.channel?' by '+first.channel:'')+'.':lead(find('Next 30 days')?.body);
+  if(!report.drafts.length)$('todo-block').hidden=true;
+  report.drafts.forEach((d,i)=>{
+    const li=element('li');const box=element('input');box.type='checkbox';box.setAttribute('aria-label','Mark message '+(i+1)+' sent');
+    const key='sent:'+id+':'+i;try{if(localStorage.getItem(key)){box.checked=true;li.classList.add('done')}}catch{}
+    box.addEventListener('change',()=>{li.classList.toggle('done',box.checked);try{box.checked?localStorage.setItem(key,'1'):localStorage.removeItem(key)}catch{}});
+    const head=element('div');head.append(element('div','who',(i+1)+'. '+plain(d.to)+(d.org?' at '+plain(d.org):'')));
+    const sub=[d.channel,d.expert?'Chameleon, as the '+d.expert:''].filter(Boolean).join(' · ');if(sub)head.append(element('div','by',sub));
+    if(d.why)head.append(element('div','why',plain(d.why)));
+    li.append(box,head,element('div','msg',d.message||''));
+    const row=element('div','row');const b=element('button',null,'Copy message');b.type='button';b.addEventListener('click',()=>copy(d.message||'','Message copied'));row.append(b);
+    if(/^https?:\/\//i.test(d.source||'')){try{const u=new URL(d.source);const a=element('a',null,'Source');a.href=u.href;a.rel='noopener';a.target='_blank';row.append(a)}catch{}}else if(d.source){row.append(element('span','why','Source: '+plain(d.source)))}
+    li.append(row);$('todo').append(li)});
+  const q=find('Questions for you');if(q){$('questions').innerHTML=markdown(q.body);$('questions-block').hidden=false}
+  const order=["Why it's stalling",'The offer, aligned','First job: done','Proof plan','Next 30 days','What you already have','Business model','Where you are (gate)',"01co's calls"];
+  const rest=report.sections.filter(s=>s.title!=='Questions for you').sort((a,b)=>{const x=order.indexOf(a.title),y=order.indexOf(b.title);return (x<0?99:x)-(y<0?99:y)});
+  for(const s of rest){const card=element('article','card');card.append(element('h2',null,s.title));const body=element('div');body.innerHTML=markdown(s.body);card.append(body);$('sections').append(card)}
+  $('status').hidden=true;$('report').hidden=false;
+}).catch(e=>{$('status').textContent=(e&&e.message)||'Could not load this plan.'});
+</script>
+</body></html>

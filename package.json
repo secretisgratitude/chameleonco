@@ -1,0 +1,20 @@
+{
+  "name": "chameleon",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "start": "node src/server.js",
+    "bot": "node src/bot.js",
+    "cycle": "node src/cycle.js",
+    "test": "node --test",
+    "test:tz": "NODE_ENV=test TZ=UTC npm test && NODE_ENV=test TZ=America/Los_Angeles npm test"
+  },
+  "dependencies": {
+    "imapflow": "^2.1.1",
+    "nodemailer": "^7.0.13",
+    "undici": "^6.28.1"
+  }
+}

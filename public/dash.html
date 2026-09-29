@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<title>Dashboard | 01co Chameleon</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@600;700&family=Figtree:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--ground:#EEF3EC;--ink:#16241A;--leaf:#1F7A45;--sun:#E8B04A;--soft:#E3F1E6;--paper:#fff;--muted:#526556;color-scheme:light}
+@media(prefers-color-scheme:dark){:root{--ground:#101b14;--ink:#EEF3EC;--leaf:#81d5a0;--sun:#E8B04A;--soft:#213a2b;--paper:#19291e;--muted:#afc3b4;color-scheme:dark}}
+*{box-sizing:border-box}body{margin:0;background:var(--ground);color:var(--ink);font:16px/1.5 Figtree,system-ui,sans-serif}main{max-width:1180px;margin:auto;padding:24px clamp(16px,4vw,40px) 64px}h1,h2,h3{font-family:'Bricolage Grotesque',system-ui,sans-serif;line-height:1.2}h1{font-size:clamp(2rem,6vw,3.2rem);margin:.2em 0}h2{margin:32px 0 12px}header small{font-weight:700;color:var(--leaf)}.panel,.card{background:var(--paper);border:1px solid var(--soft);border-radius:18px;padding:18px;margin:12px 0;overflow-wrap:anywhere}.goal{border-left:6px solid var(--sun);font-weight:600}.rungs{list-style:none;padding:0;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}.rungs li{background:var(--paper);border-radius:12px;padding:12px;border:1px solid var(--soft)}.rungs .met{border-color:var(--leaf)}.rungs .current{border-color:var(--sun)}.rungs small,.meta{color:var(--muted)}.rungs strong{color:var(--leaf)}pre{white-space:pre-wrap;overflow-wrap:anywhere;background:var(--soft);padding:14px;border-radius:10px;font:inherit;user-select:text}button{border:1px solid var(--leaf);border-radius:9px;padding:10px 14px;background:var(--leaf);color:var(--ground);font:600 14px Figtree,system-ui;cursor:pointer}button.secondary{background:transparent;color:var(--leaf)}button:disabled{opacity:.55;cursor:wait}.buttons{display:flex;flex-wrap:wrap;gap:8px}input{width:100%;padding:10px;background:var(--ground);color:var(--ink);border:1px solid var(--leaf);border-radius:8px;font:inherit}a{color:var(--leaf)}.error{color:#b64230}@media(max-width:420px){.rungs{grid-template-columns:1fr}.buttons button{flex:1 1 auto}main{padding-inline:16px}}
+.pair{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.15fr);gap:16px;align-items:start}.pane h4{margin:0 0 8px;font:700 12px Figtree,system-ui;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}.post{border:1px solid var(--soft);border-radius:12px;padding:14px;background:var(--ground)}.post .ptitle{font-weight:700;margin:0 0 6px}.post .pmeta{font-size:13px;color:var(--muted);margin:0 0 8px}.post .ptext{white-space:pre-wrap;font-size:14px;max-height:260px;overflow:auto;margin:0}.why{margin:10px 0 0;padding:10px 12px;border-left:4px solid var(--sun);background:var(--paper);font-size:14px}.to{font-size:14px;margin:0 0 8px}.badge{display:inline-block;font:700 11px Figtree,system-ui;letter-spacing:.06em;text-transform:uppercase;padding:3px 8px;border-radius:999px;background:var(--soft);color:var(--leaf);margin-left:6px;vertical-align:middle}@media(max-width:760px){.pair{grid-template-columns:1fr}}
+</style>
+<script src="https://telegram.org/js/telegram-web-app.js"></script>
+</head>
+<body><main>
+<header><small>01co Chameleon</small><h1>Founder dashboard</h1></header>
+<section id="goal" class="panel goal" aria-label="Goal">Loading your goal...</section>
+<section aria-labelledby="ladder-title"><h2 id="ladder-title">The ladder</h2><ol id="ladder" class="rungs"></ol></section>
+<section aria-labelledby="cards-title"><h2 id="cards-title">Messages</h2><div id="cards"></div></section>
+<section aria-labelledby="calls-title"><h2 id="calls-title">Last night</h2><div id="calls"></div></section>
+<p id="notice" role="status"></p>
+</main>
+<script>
+'use strict';
+const $ = id => document.getElementById(id);
+const esc = value => String(value ?? '').replace(/[&<>"']/g, char => ({ '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;', "'":'&#39;' })[char]);
+const clean = value => esc(value).replace(/—/g, ' ');
+const initData = window.Telegram?.WebApp?.initData || '';
+window.Telegram?.WebApp?.ready();
+const linkKey = (() => { if (typeof URLSearchParams !== 'function' || typeof location === 'undefined') return ''; try { const k = new URLSearchParams(location.search).get('k'); if (k) { sessionStorage.setItem('dashKey', k); history.replaceState(null, '', location.pathname); } return k || sessionStorage.getItem('dashKey') || ''; } catch { try { return new URLSearchParams(location.search).get('k') || ''; } catch { return ''; } } })();
+const headers = () => ({ ...(initData ? { 'X-Telegram-Init-Data': initData } : linkKey ? { 'X-Dash-Key': linkKey } : {}), 'Content-Type': 'application/json' });
+let busy = false;
+let cards = [];
+function safeLink(value) {
+  try { const url = new URL(value); return ['http:', 'https:'].includes(url.protocol) ? `<a href="${esc(url.href)}" rel="noopener noreferrer" target="_blank">Source</a>` : ''; }
+  catch { return ''; }
+}
+function groupedCalls(calls) {
+  const groups = new Map();
+  for (const call of calls) {
+    const key = JSON.stringify([call.move, call.why, call.date, call.expert]);
+    if (!groups.has(key)) groups.set(key, { ...call, items: [] });
+    groups.get(key).items.push(call.item);
+  }
+  return [...groups.values()].map(call => {
+    const ids = call.items.map(item => /^#(\d+)$/.exec(item)?.[1]);
+    const range = ids.length > 1 && ids.every(Boolean) && ids.every((id, i) => i === 0 || Number(id) === Number(ids[i - 1]) + 1);
+    return { ...call, label: call.items.length === 1 ? call.item : `${call.items.length}${call.date ? ` to ${call.date}` : ''} (${range ? `#${ids[0]} to #${ids.at(-1)}` : call.items.join(', ')})` };
+  });
+}
+function show(data) {
+  cards = data.cards;
+  const goal = data.goal;
+  $('goal').textContent = goal ? `Goal: ${goal.target} replies by ${goal.by}. ${goal.done} so far. ${goal.pace}.` : 'No goal yet. Start with /intake in Telegram.';
+  $('ladder').innerHTML = data.rungs.map(r => `<li class="${esc(r.state)}"><strong>${esc(r.id)}</strong> ${clean(r.label)}<br><small>${esc(r.state)}${r.evidence ? ` · ${clean(r.evidence.text)}${r.evidence.date ? ` (${esc(r.evidence.date)})` : ''}` : ''}</small></li>`).join('');
+  const sendsAs = c => c.channel === 'email' ? `Email to ${c.email || 'no address'}: sends from your Gmail on Approve` : c.channel === 'hn' ? 'Hacker News reply: you paste it yourself' : c.channel === 'x' ? 'X DM: you paste it yourself' : c.channel === 'ih' ? 'Indie Hackers reply: you paste it yourself' : `${c.channel}: you paste it yourself`;
+  const cardHTML = c => `<article class="card" data-id="${esc(c.id)}"><h3>#${esc(c.id)} ${clean(c.org || c.to)}<span class="badge">${clean(c.channel)}</span><span class="badge">${clean(c.status)}</span></h3><div class="pair"><section class="pane"><h4>What you're replying to</h4><div class="post" data-preview="${esc(c.id)}"><p class="pmeta">Loading the post...</p></div>${c.why ? `<p class="why"><strong>Why them:</strong> ${clean(c.why)}</p>` : ''}</section><section class="pane"><h4>Your draft${c.expert ? `, written as the ${clean(c.expert)}` : ''}</h4><p class="to">${clean(sendsAs(c))}</p><pre>${clean(c.message)}</pre><div class="buttons"><button type="button" data-action="copy">Copy message</button>${['ready','re-planned'].includes(c.status) ? `<button type="button" data-action="approve">${c.channel === 'email' ? 'Approve &amp; send' : 'Approve'}</button><button type="button" class="secondary" data-action="edit">Edit</button><button type="button" class="secondary" data-action="skip">Skip</button>${c.copyReady ? `<button type="button" data-action="done">Done, mark sent</button>` : ''}` : ''}</div><div class="feedback"></div></section></div></article>`;
+  $('cards').innerHTML = data.cards.length ? [
+    `<h3>Ready for you (${data.cards.filter(c => ['ready','re-planned'].includes(c.status)).length})</h3>${data.cards.filter(c => ['ready','re-planned'].includes(c.status)).map(cardHTML).join('')}`,
+    ...[['Sent', 'sent'], ['Skipped', 'skipped']].map(([label, status]) => `<details><summary>${label} (${data.cards.filter(c => c.status === status).length})</summary>${data.cards.filter(c => c.status === status).map(cardHTML).join('')}</details>`)
+  ].join('') : '<p>No threads yet. Run /intake in Telegram.</p>';
+  loadPreviews().catch(() => {});
+  $('calls').innerHTML = data.calls.length ? groupedCalls(data.calls).map(c => `<div class="panel"><strong>${clean(c.move)}${c.expert ? ` to ${clean(c.expert)}` : ''}: ${clean(c.label)}</strong><p>${clean(c.why)}</p></div>`).join('') : '<p>No calls recorded yet.</p>';
+}
+const previewCache = new Map();
+function previewHTML(p) {
+  const link = safeLink(p.url).replace('>Source<', '>Open the original<');
+  if (p.kind === 'hn') return `<p class="ptitle">${clean(p.title)}</p><p class="pmeta">Hacker News · ${clean(p.author)}${p.points != null ? ` · ${esc(p.points)} points` : ''} · ${esc(p.comments)} comments${p.date ? ` · ${esc(p.date.slice(0, 10))}` : ''}</p>${p.text ? `<p class="ptext">${clean(p.text)}</p>` : ''}${p.link ? `<p class="pmeta">Links to ${safeLink(p.link).replace('>Source<', `>${esc(p.link)}<`)}</p>` : ''}<p class="pmeta">${link}</p>`;
+  if (p.kind === 'none') return `<p class="pmeta">${clean(p.note)}</p>`;
+  return `<p class="ptitle">${clean(p.title)}</p>${p.text ? `<p class="ptext">${clean(p.text)}</p>` : ''}<p class="pmeta">${link}</p>`;
+}
+async function loadPreviews() {
+  if (typeof document.querySelectorAll !== 'function') return;
+  for (const el of document.querySelectorAll('[data-preview]')) {
+    const id = el.dataset.preview;
+    if (el.closest('details') && !el.closest('details').open) continue;
+    try {
+      if (!previewCache.has(id)) previewCache.set(id, await request(`/api/dash/threads/${encodeURIComponent(id)}/preview`));
+      el.innerHTML = previewHTML(previewCache.get(id));
+    } catch { el.innerHTML = '<p class="pmeta">Preview unavailable.</p>'; }
+  }
+}
+document.addEventListener?.('toggle', event => { if (event.target.tagName === 'DETAILS' && event.target.open) loadPreviews(); }, true);
+async function request(path, options = {}) {
+  const response = await fetch(path, { ...options, headers: headers() });
+  const data = await response.json();
+  if (!response.ok) throw new Error(data.error || 'Request failed.');
+  return data;
+}
+async function refresh() {
+  try { show(await request('/api/dash/state')); $('notice').textContent = ''; }
+  catch (error) { $('notice').textContent = error.message === 'Unauthorized.' ? 'Open this from Telegram: send /dash to @chameleoncobot and tap the link.' : error.message; $('notice').className = 'error'; }
+}
+$('cards').addEventListener('click', async event => {
+  const button = event.target.closest('button[data-action]');
+  if (!button || busy) return;
+  const card = button.closest('.card');
+  const action = button.dataset.action;
+  const message = cards.find(c => String(c.id) === card.dataset.id)?.message;
+  if (action === 'copy') { try { await navigator.clipboard.writeText(card.querySelector('pre').textContent); $('notice').textContent = 'Message copied.'; } catch { $('notice').textContent = 'Select and copy the message above.'; } return; }
+  if (action === 'edit') {
+    const container = card.querySelector('.feedback');
+    container.innerHTML = '<label>What should change?<input maxlength="2000" aria-label="Edit feedback"></label><button type="button" data-action="save">Save edit</button>';
+    container.querySelector('input').focus(); return;
+  }
+  const feedback = card.querySelector('input')?.value;
+  if (action === 'save' && !feedback?.trim()) { $('notice').textContent = 'Enter feedback first.'; return; }
+  busy = true;
+  try {
+    const data = await request(`/api/dash/threads/${encodeURIComponent(card.dataset.id)}/${action === 'save' ? 'edit' : action}`, { method: 'POST', body: JSON.stringify(action === 'save' ? { feedback } : { message }) });
+    show(data);
+    $('notice').textContent = action === 'approve' && ['x','linkedin','hn','ih'].includes(data.cards.find(c => String(c.id) === card.dataset.id)?.channel) ? 'Copy the message, open the destination, paste it, then mark sent.' : 'Updated.';
+    $('notice').className = '';
+  } catch (error) { $('notice').textContent = error.message; $('notice').className = 'error'; }
+  finally { busy = false; }
+});
+refresh();
+</script></body></html>

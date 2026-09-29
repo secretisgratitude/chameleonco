@@ -1,0 +1,219 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>01co Chameleon | Built the thing. Validated the problem. Nobody will go first.</title>
+<link rel="icon" type="image/png" href="/brand/favicon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@500;700;800&family=Figtree:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{color-scheme:light;--ground:#EEF3EC;--ink:#16241A;--leaf:#1F7A45;--sun:#E8B04A;--soft:#E3F1E6;--paper:#fff;--border:#bdd3c0}
+*{box-sizing:border-box}
+body{margin:0;background:var(--ground);color:var(--ink);font-family:Figtree,system-ui,sans-serif;line-height:1.55}
+header,main,footer{max-width:1040px;margin:auto;padding:24px}
+header{display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap;border-bottom:1px solid var(--border)}
+header strong{font-family:'Bricolage Grotesque',sans-serif;font-size:1.3rem}
+header a{color:var(--ink);text-decoration:none;font-weight:600;border:1px solid var(--border);border-radius:10px;padding:8px 14px}
+section{padding:56px 0;border-bottom:1px solid var(--border)}
+section:last-of-type{border-bottom:0}
+h1,h2,h3{font-family:'Bricolage Grotesque',sans-serif;letter-spacing:-.02em}
+h1{font-size:clamp(2.2rem,6vw,4.2rem);line-height:1.08;max-width:850px;margin:18px 0 8px}
+h2{font-size:clamp(1.5rem,3.4vw,2.3rem);line-height:1.2;max-width:820px;margin:0 0 20px}
+.byline{color:var(--ink);opacity:.72;font-size:.92rem}
+.lede{font-size:1.2rem;max-width:640px;margin:14px 0 0}
+.demo{margin:36px 0 0;max-width:640px}
+.demo video{width:100%;border-radius:16px;border:1px solid var(--border);display:block;background:var(--paper)}
+.caption{font-size:.9rem;opacity:.75;margin:10px 0 0}
+.dots-wrap{display:flex;flex-wrap:wrap;gap:24px;margin:28px 0}
+.dot-group{flex:1 1 200px}
+.dot-group-label{font-weight:600;margin:0 0 8px}
+.dot-group-label b{font-family:'Bricolage Grotesque',sans-serif;font-size:1.15rem;color:var(--leaf);margin-right:6px}
+.dot-group-label b.tight{margin-right:0}
+.dots{display:flex;flex-wrap:wrap;gap:4px}
+.dot{width:8px;height:8px;border-radius:50%;background:var(--leaf);opacity:.85;transition:transform .4s ease, opacity .4s ease}
+.dot-group-aside .dot{background:var(--sun)}
+.dot-group-aside{border-top:1px dashed var(--border);padding-top:16px;flex-basis:100%}
+.proof-line{max-width:760px;font-size:1.05rem}
+.compare{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin:28px 0}
+.compare .col{background:var(--paper);border:1px solid var(--border);border-radius:16px;padding:20px}
+.compare h3{margin:0 0 10px}
+.compare ul{margin:0;padding-left:20px}
+.compare li{margin:6px 0}
+.cofounders{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin:28px 0;align-items:start}
+.cofounder{background:var(--paper);border:1px solid var(--border);border-radius:16px;padding:20px}
+.cofounder h3{margin:0 0 10px}
+.chips{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}
+.chip{background:var(--soft);border:1px solid var(--border);border-radius:999px;padding:6px 14px;font-size:.85rem;font-weight:600}
+.mascot-hero{width:220px;height:220px;flex:0 0 auto;object-fit:contain}
+.hero-row{display:flex;align-items:center;gap:32px;flex-wrap:wrap}
+.hero-row .hero-copy{flex:1 1 480px;min-width:0}
+.mascot{display:block;width:96px;height:96px;object-fit:contain;margin:0 0 14px;transition:filter 400ms ease}
+.mascot[data-expert="researcher"]{filter:hue-rotate(95deg)}
+.mascot[data-expert="offer"]{filter:hue-rotate(150deg)}
+.mascot[data-expert="copywriter"]{filter:hue-rotate(-95deg)}
+.mascot[data-expert="closer"]{filter:hue-rotate(0deg)}
+.experts{list-style:none;margin:6px 0 0;padding:0;display:flex;flex-direction:column;gap:8px}
+.expert{border-left:3px solid var(--border);padding:4px 10px;font-size:.94rem;transition:border-color .4s ease,background-color .4s ease}
+.expert[data-expert="researcher"]{--row-color:#2B6CB0}
+.expert[data-expert="offer"]{--row-color:#7B4BB7}
+.expert[data-expert="copywriter"]{--row-color:#C2562C}
+.expert[data-expert="closer"]{--row-color:#1F7A45}
+.expert.active{border-left-color:var(--row-color);background:var(--soft)}
+.gates{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:8px;margin:24px 0}
+.gate{border:1px solid var(--border);border-radius:12px;padding:12px 8px;font-size:.8rem;background:var(--paper)}
+.gate b{display:block;color:var(--leaf);font-size:1rem}
+.examples{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-top:20px}
+.card{background:var(--paper);border:1px solid var(--border);border-radius:16px;padding:20px;position:relative}
+.tag{position:absolute;top:14px;right:14px;font-size:.72rem;text-transform:uppercase;letter-spacing:.06em;background:var(--soft);border:1px solid var(--border);border-radius:999px;padding:3px 10px}
+.card h3{margin:0 0 8px;font-size:1.05rem}
+.card p{margin:0}
+.message-example .why{margin:0 0 10px}
+.message-example .message{margin:0}
+.message-actions{display:flex;gap:10px;margin-top:16px}
+.btn{border:1px solid var(--border);border-radius:10px;background:var(--soft);color:var(--ink);font-weight:600;font-size:.9rem;padding:8px 16px;cursor:pointer}
+.btn:hover{filter:brightness(1.05)}
+.btn-sent.sent{background:var(--leaf);color:#fff;border-color:var(--leaf)}
+.ask h2{max-width:none}
+.button{display:inline-block;border:0;border-radius:12px;background:var(--leaf);color:#fff;text-decoration:none;font-weight:700;padding:16px 26px;font-size:1.05rem}
+.button:hover{filter:brightness(1.12)}
+.fine{font-size:.9rem;opacity:.78;margin-top:14px}
+footer{border-top:0}
+@media(max-width:680px){
+  .compare,.cofounders,.examples{grid-template-columns:1fr}
+  .gates{grid-template-columns:repeat(3,minmax(0,1fr))}
+  header,main,footer{padding:18px}
+  section{padding:40px 0}
+  .hero-row{flex-direction:column;align-items:flex-start}
+}
+@media(max-width:390px){.gates{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(prefers-color-scheme:dark){
+  :root{color-scheme:dark;--ground:#111d16;--ink:#e4efe3;--leaf:#60c88b;--soft:#203829;--paper:#1c3022;--border:#37543d}
+  header a,.button{color:#fff}
+  .button{background:#34774c}
+}
+@media(prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}.mascot[data-expert]{filter:none}.expert.active{border-left-color:var(--border);background:transparent}}
+</style></head>
+<body>
+<header><strong>01co Chameleon</strong><a href="/app">Show me my first customer</a></header>
+<main>
+
+<section id="section-1">
+<div class="hero-row">
+<img class="mascot-hero" src="/brand/mascot.png" width="220" height="220" alt="">
+<div class="hero-copy">
+<small class="byline">A founder's real post title, r/startups, September 2026</small>
+<h1>Built the thing. Validated the problem. Nobody will go first.</h1>
+<p class="lede">If that's you, you don't have a product problem. You have a first-customer problem.</p>
+<!--DEMO_START--><div class="demo" id="demo-slot"><video src="/media/demo.mp4" poster="/media/demo-poster.jpg" muted loop autoplay playsinline aria-label="45 seconds: a website in, a first customer plan out.">Your browser does not support video.</video><p class="caption">45 seconds: a website in, a first customer plan out.</p></div><!--DEMO_END-->
+</div>
+</div>
+</section>
+
+<section id="section-2">
+<h2>We read 112 founders' posts about not getting customers.</h2>
+<div class="dots-wrap" id="dots">
+<div class="dot-group" data-group><p class="dot-group-label"><b>33</b>no channel to reach buyers</p><div class="dots" role="img" aria-label="33 dots"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="dot"></span></div></div>
+<div class="dot-group" data-group><p class="dot-group-label"><b>21</b>nobody willing to go first</p><div class="dots" role="img" aria-label="21 dots"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="dot"></span></div></div>
+<div class="dot-group" data-group><p class="dot-group-label"><b>19</b>the wrong medium</p><div class="dots" role="img" aria-label="19 dots"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="dot"></span></div></div>
+<div class="dot-group" data-group><p class="dot-group-label"><b>12</b>the wrong message</p><div class="dots" role="img" aria-label="12 dots"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="dot"></span></div></div>
+<div class="dot-group dot-group-aside" data-group><p class="dot-group-label"><b class="tight">27</b>, set apart: a product or pricing problem</p><div class="dots" role="img" aria-label="27 dots"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="dot"></span></div></div>
+</div>
+<p class="proof-line">85 of 112 were stuck on the first buyer, not the product. The other 27 had a product or pricing problem, which this doesn't fix.</p>
+</section>
+
+<section id="section-3">
+<h2>Tools write more messages. Nobody owns whether anyone says yes.</h2>
+<div class="compare">
+<div class="col"><h3>Activity</h3><ul><li>messages written</li><li>leads scraped</li><li>posts scheduled</li></ul></div>
+<div class="col"><h3>Outcomes</h3><ul><li>a buyer you can name</li><li>a yes to a next step</li><li>a yes to a price</li><li>money in the account</li></ul></div>
+</div>
+</section>
+
+<section id="section-4">
+<h2>Two AI co-founders. One runs the plan. One becomes the expert.</h2>
+<div class="cofounders">
+<div class="cofounder" id="co-01co"><h3>01co, the COO.</h3><p>Knows every part of the business well enough to judge it. Every item gets one of four moves: decide, delegate, defer, or do it now.</p><div class="chips"><span class="chip">Decide</span><span class="chip">Delegate</span><span class="chip">Defer</span><span class="chip">Do it now</span></div></div>
+<div class="cofounder" id="co-chameleon"><img class="mascot" id="mascot" src="/brand/mascot.png" width="96" height="96" alt=""><h3>Chameleon, the expert.</h3><p>Becomes the expert your next step needs: the researcher who finds your buyers, the offer strategist, the copywriter, the closer.</p>
+<ul class="experts" id="experts">
+<li class="expert" data-expert="researcher">the researcher who finds your buyers</li>
+<li class="expert" data-expert="offer">the offer strategist</li>
+<li class="expert" data-expert="copywriter">the copywriter</li>
+<li class="expert" data-expert="closer">the closer</li>
+</ul>
+</div>
+</div>
+<p>01co calls the expert and says why in one line. Chameleon does the work at that expert's standard.</p>
+</section>
+
+<section id="section-5">
+<h2>What you get in five minutes</h2>
+<div class="gates" id="gates">
+<div class="gate"><b>G0</b>a buyer you can name</div>
+<div class="gate"><b>G1</b>the problem is real</div>
+<div class="gate"><b>G2</b>someone says yes to a next step</div>
+<div class="gate"><b>G3</b>a yes to a price</div>
+<div class="gate"><b>G4</b>money lands</div>
+<div class="gate"><b>G5</b>it happens again</div>
+</div>
+<div class="examples" id="examples">
+<article class="card example"><span class="tag">Example</span><h3>Why it's stalling</h3><p>Without a named buyer and their own account of the problem, the offer is a guess.</p></article>
+<article class="card example message-example"><span class="tag">Example</span><h3>To: Owner of a 3-location pet-sitting company</h3><p class="why"><strong>Why:</strong> Said she'd pay if it handled payroll exports. Nobody followed up.</p><p class="message" id="message-text">Hi Dana, you said payroll exports were the one thing missing. It does them now. Want me to run your last two weeks through it, free, and you tell me if the numbers match?</p><div class="message-actions"><button type="button" class="btn btn-copy" data-copy-target="message-text">Copy</button><button type="button" class="btn btn-sent" id="sent-btn">I sent it</button></div></article>
+</div>
+</section>
+
+<section id="section-6">
+<h2>Earned, not claimed.</h2>
+<p>Every co-founder here is judged the way a salesperson is: by outcomes, not activity. It earns more room by getting results, and loses it after a correction.</p>
+<p>This product was built the same way: AdaL (the engineer) built it, Tenki reviewed every pull request, AdaL fixed every finding.</p>
+</section>
+
+<section id="section-7" class="ask">
+<h2>Paste your website. Get your first customer plan.</h2>
+<a class="button" href="/app">Show me my first customer</a>
+<p class="fine">Free. Nothing is sent to anyone without you.</p>
+</section>
+
+</main>
+<footer></footer>
+<script>
+(function(){
+  var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var groups = document.querySelectorAll('[data-group]');
+  if('IntersectionObserver' in window && groups.length){
+    var groupObserver = new IntersectionObserver(function(entries){
+      entries.forEach(function(entry){ if(entry.isIntersecting) entry.target.classList.add('in-view'); });
+    }, { threshold: .3 });
+    groups.forEach(function(group){ group.classList.add('in-view'); if(!reduce) groupObserver.observe(group); });
+  }
+  var copyBtn = document.querySelector('.btn-copy');
+  if(copyBtn){
+    copyBtn.addEventListener('click', function(){
+      var target = document.getElementById(copyBtn.dataset.copyTarget);
+      var text = target ? target.textContent : '';
+      if(navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(text);
+      var original = copyBtn.textContent;
+      copyBtn.textContent = 'Copied';
+      setTimeout(function(){ copyBtn.textContent = original; }, 1500);
+    });
+  }
+  var sentBtn = document.getElementById('sent-btn');
+  if(sentBtn){
+    sentBtn.addEventListener('click', function(){
+      sentBtn.classList.toggle('sent');
+    });
+  }
+  var mascot = document.getElementById('mascot');
+  var experts = document.querySelectorAll('.expert');
+  if(mascot && experts.length && !reduce){
+    window.addEventListener('scroll', function(){
+      var nearest = null, distance = Infinity;
+      experts.forEach(function(expert){
+        var rect = expert.getBoundingClientRect();
+        if(rect.bottom <= 0 || rect.top >= window.innerHeight) return;
+        var gap = Math.abs((rect.top + rect.bottom) / 2 - window.innerHeight / 2);
+        if(gap < distance){ nearest = expert; distance = gap; }
+      });
+      experts.forEach(function(expert){ expert.classList.toggle('active', expert === nearest); });
+      if(nearest) mascot.dataset.expert = nearest.dataset.expert;
+      else delete mascot.dataset.expert;
+    }, { passive: true });
+  }
+})();
+</script>
+</body></html>

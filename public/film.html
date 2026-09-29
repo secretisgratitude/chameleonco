@@ -1,0 +1,477 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>ChameleonCo | Your first customer, by name</title>
+<meta name="description" content="One AI co-founder that becomes the expert your business is missing, finds your first buyers by name, and writes the first message. Nothing sends until you tap.">
+<link rel="icon" href="/brand/favicon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Figtree:wght@400;500;600;700&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ground:#EEF3EC;--ground-2:#E3ECE1;--ink:#16241A;--ink-2:#3B4A3F;--muted:#5E7163;
+  --leaf:#1F7A45;--leaf-deep:#155A32;--sun:#E8B04A;--paper:#FFFFFF;--line:#CBD9CD;
+  --research:#2F6FD6;--offer:#D99A1E;--copy:#D9573F;--night:#0F1A13;
+  --display:'Bricolage Grotesque',ui-sans-serif,system-ui,sans-serif;
+  --body:'Figtree',ui-sans-serif,system-ui,sans-serif;
+  --mono:'JetBrains Mono',ui-monospace,Menlo,monospace;
+  color-scheme:light;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--ground);color:var(--ink);font:17px/1.55 var(--body);overflow-x:hidden}
+a{color:inherit}
+img{max-width:100%;display:block}
+.wrap{max-width:1180px;margin:0 auto;padding-inline:clamp(16px,4vw,40px)}
+.eyebrow{font:600 12px/1 var(--body);letter-spacing:.14em;text-transform:uppercase;color:var(--leaf)}
+h1,h2,h3{font-family:var(--display);letter-spacing:-.02em;margin:0;text-wrap:balance}
+
+/* header */
+.top{position:fixed;inset:0 0 auto 0;z-index:50;padding-top:env(safe-area-inset-top,0px);transition:background .3s,box-shadow .3s}
+.top.scrolled{background:color-mix(in srgb,var(--ground) 86%,transparent);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);box-shadow:0 1px 0 var(--line)}
+.top .wrap{display:flex;align-items:center;justify-content:space-between;height:64px}
+.mark{display:flex;align-items:center;gap:10px;font:800 20px/1 var(--display);letter-spacing:-.03em;text-decoration:none}
+.mark img{width:34px;height:34px}
+.mark span b{color:var(--leaf);font-weight:800}
+.pill-btn{display:inline-flex;align-items:center;gap:8px;border-radius:999px;padding:11px 18px;background:var(--ink);color:var(--ground);font:600 14px/1 var(--body);text-decoration:none;border:0;cursor:pointer;transition:transform .2s cubic-bezier(0.34,1.56,0.64,1),background .2s cubic-bezier(0.25,0.46,0.45,0.94)}
+.pill-btn:hover{background:var(--leaf-deep);transform:translateY(-2px)}
+.pill-btn:active{transform:translateY(0)}
+.pill-btn:focus-visible,.go:focus-visible,input:focus-visible{outline:3px solid var(--sun);outline-offset:2px}
+
+/* hero */
+.hero{min-height:100svh;display:flex;align-items:center;padding-block:96px 48px;position:relative;overflow:hidden}
+.hero .wrap{display:grid;grid-template-columns:1.25fr .75fr;gap:40px;align-items:center;width:100%}
+.hero h1{font-size:clamp(44px,7.4vw,104px);font-weight:800;line-height:.95;letter-spacing:-.045em}
+.hero h1 .line{display:block;overflow:hidden;padding-bottom:.06em}
+.hero h1 .line>span{display:inline-block}
+.hero h1 em{font-style:normal;color:var(--leaf)}
+.src{font:500 13px/1.4 var(--body);color:var(--muted);margin:0 0 18px}
+.lede{font-size:clamp(18px,1.6vw,21px);color:var(--ink-2);max-width:34ch;margin:22px 0 28px}
+.ask-form{display:flex;gap:8px;max-width:560px;background:var(--paper);border:1px solid var(--line);border-radius:16px;padding:8px;box-shadow:0 1px 2px rgba(22,36,26,.05),0 18px 40px -18px rgba(22,36,26,.25)}
+.ask-form input{flex:1;min-width:0;border:0;background:transparent;font:500 17px var(--body);color:var(--ink);padding:12px 12px;border-radius:10px}
+.ask-form input::placeholder{color:#8A9A8E}
+.go{border:0;border-radius:11px;background:var(--leaf);color:#fff;font:700 15px/1 var(--body);padding:0 20px;cursor:pointer;white-space:nowrap;transition:background .2s cubic-bezier(0.25,0.46,0.45,0.94),transform .2s cubic-bezier(0.34,1.56,0.64,1)}
+.go:hover{background:var(--leaf-deep);transform:translateY(-2px)}
+.go:active{transform:translateY(0)}
+.fine{margin:14px 0 0;font-size:14px;color:var(--muted)}
+.fine b{color:var(--ink);font-weight:700}
+.room{display:inline-flex;align-items:center;gap:8px;margin-bottom:22px;padding:7px 12px 7px 10px;border-radius:999px;background:var(--paper);border:1px solid var(--line);font:600 13px/1 var(--body)}
+.room i{width:8px;height:8px;border-radius:50%;background:var(--sun);box-shadow:0 0 0 4px color-mix(in srgb,var(--sun) 30%,transparent)}
+
+/* the chameleon: the PNG, plus a colour layer masked to its silhouette */
+.cham{position:relative;aspect-ratio:1;width:100%}
+.cham img{width:100%;height:100%}
+.cham .tint{position:absolute;inset:0;background:var(--c,var(--leaf));mix-blend-mode:color;opacity:var(--t,0);
+  -webkit-mask:url(/brand/mascot.png) center/contain no-repeat;mask:url(/brand/mascot.png) center/contain no-repeat;transition:opacity .5s,background .5s}
+.hero-cham{position:relative;max-width:380px;justify-self:end;width:100%}
+.hero-cham .halo{position:absolute;inset:8%;border-radius:50%;background:radial-gradient(closest-side,color-mix(in srgb,var(--leaf) 22%,transparent),transparent);filter:blur(6px)}
+.hero-cham .cham{z-index:1}
+.cham canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
+.cham.live img,.cham.live .tint{visibility:hidden}
+.expert-tag{position:absolute;left:50%;bottom:-6px;transform:translateX(-50%);z-index:2;white-space:nowrap;background:var(--ink);color:var(--ground);border-radius:999px;padding:8px 14px;font:600 13px/1 var(--body)}
+.expert-tag b{color:var(--sun)}
+.scroll-cue{position:absolute;left:50%;bottom:20px;transform:translateX(-50%);font:500 12px var(--mono);color:var(--muted);letter-spacing:.08em}
+
+/* the run: one night, a different expert for every business */
+.run{position:relative;background:var(--night);color:#E9F1EA;overflow:hidden}
+.run-head{padding-block:96px 48px}
+.run-head .eyebrow{color:var(--sun)}
+.run-head h2{font-size:clamp(34px,5vw,64px);font-weight:800;line-height:1.02;margin-top:14px;max-width:18ch}
+.run-head p{color:#AFC3B4;max-width:52ch;margin:16px 0 0}
+.track-outer{padding-block:48px 110px}
+.track{display:flex;gap:28px;width:max-content;padding-inline:clamp(16px,4vw,40px)}
+.panel{width:min(78vw,760px);flex:0 0 auto;display:grid;grid-template-columns:200px 1fr;gap:28px;align-items:center;background:#18271D;border:1px solid #294233;border-radius:24px;padding:28px}
+.panel .cham{width:200px}
+.panel .who{display:flex;flex-direction:column;gap:14px}
+.browser{background:#0B130E;border:1px solid #294233;border-radius:12px;overflow:hidden}
+.browser .bar{display:flex;align-items:center;gap:6px;padding:9px 12px;border-bottom:1px solid #294233;font:500 12px var(--mono);color:#8FA595}
+.browser .bar i{width:8px;height:8px;border-radius:50%;background:#2B4133}
+.browser .bar span{margin-left:8px}
+.browser p{margin:0;padding:12px 14px;font:600 15px/1.35 var(--body);color:#E9F1EA}
+.became{display:inline-flex;align-self:flex-start;align-items:center;gap:8px;border-radius:999px;padding:7px 12px;font:700 13px/1 var(--body);background:color-mix(in srgb,var(--c) 18%,transparent);color:var(--c);border:1px solid color-mix(in srgb,var(--c) 45%,transparent)}
+.became::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--c)}
+.finding{font:600 clamp(19px,2vw,24px)/1.3 var(--display);letter-spacing:-.01em;margin:0}
+.proofnote{font:500 12px/1.45 var(--mono);color:#8FA595;margin:0}
+.panel.yours{background:var(--ground);color:var(--ink);border-color:var(--ground)}
+.panel.yours .finding{color:var(--ink)}
+.panel.yours .proofnote{color:var(--muted)}
+.panel.yours .browser{background:var(--paper);border-color:var(--line)}
+.panel.yours .browser .bar{border-color:var(--line);color:var(--muted)}
+.panel.yours .browser .bar i{background:var(--line)}
+.panel.yours .browser p{color:var(--muted)}
+.run-progress{position:absolute;left:clamp(16px,4vw,40px);right:clamp(16px,4vw,40px);bottom:48px;height:2px;background:#294233}
+.run-progress b{display:block;height:100%;width:0;background:var(--sun)}
+
+/* the 9 AM brief */
+.brief{padding-block:120px;background:linear-gradient(180deg,var(--night) 0%,#1B3324 18%,#6E9A7B 46%,var(--ground) 78%)}
+.brief .wrap{display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:center}
+.brief .copy .eyebrow{color:var(--sun)}
+.brief h2{font-size:clamp(34px,4.6vw,58px);font-weight:800;line-height:1.02;margin-top:14px;color:#fff}
+.brief .copy p{color:#DDE8DF;font-size:19px;max-width:36ch}
+.phone{justify-self:center;width:min(340px,86vw);aspect-ratio:9/18.5;border-radius:44px;background:#0B130E;padding:12px;box-shadow:0 40px 80px -30px rgba(0,0,0,.55),inset 0 0 0 2px #2B4133}
+.screen{height:100%;border-radius:34px;background:#DCE8F2;overflow:hidden;display:flex;flex-direction:column}
+.screen .tg{background:#fff;padding:14px 16px;display:flex;align-items:center;gap:10px;font:700 14px var(--body);border-bottom:1px solid #D5DEE6}
+.screen .tg img{width:30px;height:30px;border-radius:50%;background:var(--ground)}
+.screen .tg small{display:block;font:500 11px var(--body);color:#6C7C88}
+.msgs{flex:1;padding:14px;display:flex;flex-direction:column;justify-content:flex-end;gap:10px}
+.bubble{background:#fff;border-radius:14px 14px 14px 4px;padding:11px 13px;font:14px/1.42 var(--body);color:#1A2A20;box-shadow:0 1px 1px rgba(0,0,0,.06)}
+.bubble b{font-weight:700}
+.bubble .to{font-size:12.5px;color:#4A5B50;margin:6px 0}
+.bubble .time{display:block;text-align:right;font-size:10.5px;color:#8A98A2;margin-top:4px}
+.keys{display:grid;grid-template-columns:1.4fr 1fr;gap:6px}
+.keys span{background:rgba(255,255,255,.72);border-radius:10px;padding:10px 6px;text-align:center;font:600 13px var(--body);color:#2A5D8F}
+.keys span.ok{background:var(--leaf);color:#fff}
+
+/* proof */
+.proof{padding-block:120px 110px}
+.proof h2{font-size:clamp(32px,4.4vw,54px);font-weight:800;line-height:1.04;max-width:20ch;margin-top:14px}
+.stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:1px;background:var(--line);border:1px solid var(--line);border-radius:20px;overflow:hidden;margin-top:40px}
+.stat{background:var(--paper);padding:26px 22px}
+.stat .n{font:800 clamp(38px,4.4vw,56px)/1 var(--display);letter-spacing:-.04em;font-variant-numeric:tabular-nums}
+.stat .n small{font-size:.45em;color:var(--muted);letter-spacing:0;font-weight:700}
+.stat p{margin:10px 0 0;font-size:15px;color:var(--ink-2)}
+.stat .how{display:block;margin-top:8px;font:500 11.5px/1.4 var(--mono);color:var(--muted)}
+
+/* the record: where this is going */
+.record{padding-block:100px 110px}
+.record .box{border-radius:28px;background:var(--ink);color:#E9F1EA;padding:clamp(28px,5vw,56px);display:grid;grid-template-columns:1.2fr .8fr;gap:32px;align-items:center}
+.record .eyebrow{color:var(--sun)}
+.record h2{font-size:clamp(28px,3.6vw,44px);font-weight:700;line-height:1.1;margin-top:14px}
+.record p{color:#AFC3B4;margin:16px 0 0;max-width:46ch}
+.ledger{font:500 13px/1.9 var(--mono);color:#CFE3D3;background:#0B130E;border-radius:14px;padding:18px 20px;border:1px solid #294233;overflow-x:auto;white-space:nowrap}
+.ledger b{font-weight:500}
+.ledger .o{color:var(--offer)} .ledger .c{color:#F08A74} .ledger .r{color:#7FA8EC} .ledger .m{color:#6F8676}
+
+/* ask */
+.ask{padding-block:100px 120px;text-align:left}
+.ask h2{font-size:clamp(40px,6vw,84px);font-weight:800;line-height:.98;letter-spacing:-.04em;max-width:14ch}
+.ask .row{display:grid;grid-template-columns:1.2fr .8fr;gap:40px;align-items:end;margin-top:34px}
+.other{display:flex;flex-direction:column;gap:10px;font-size:15px;color:var(--ink-2)}
+.other a{font-weight:700;text-decoration:none;border-bottom:2px solid var(--sun)}
+footer{padding-block:28px 40px;border-top:1px solid var(--line);font-size:13px;color:var(--muted)}
+footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
+
+@media (max-width:860px){
+  .hero .wrap,.brief .wrap,.record .box,.ask .row{grid-template-columns:1fr}
+  .hero-cham{justify-self:center;max-width:220px;order:-1;margin-bottom:8px}
+  .hero{padding-top:84px}
+  .panel{grid-template-columns:1fr;width:84vw;padding:22px;gap:16px}
+  .panel .cham{width:120px}
+  .stats{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .brief{padding-block:90px}
+}
+@media (max-width:420px){
+  .ask-form{flex-direction:column}
+  .go{padding:14px 20px}
+  .top .pill-btn{padding:10px 14px;font-size:13px}
+}
+/* no motion: the run becomes a plain stack, every chameleon already in its colour */
+@media (prefers-reduced-motion:reduce){
+  .track{flex-direction:column;width:auto}
+  .panel{width:auto}
+  .cham .tint{opacity:1!important;transition:none}
+  .run-progress{display:none}
+}
+</style>
+</head>
+<body>
+
+<header class="top" id="top">
+  <div class="wrap">
+    <a class="mark" href="/" aria-label="ChameleonCo home"><img src="/brand/mascot.png" alt="" width="34" height="34"><span>Chameleon<b>Co</b></span></a>
+    <a class="pill-btn" href="#ask">Find my first buyers</a>
+  </div>
+</header>
+
+<main>
+<section class="hero" id="hero">
+  <div class="wrap">
+    <div>
+      <div class="room"><i></i>Free for the first 30 founders in this room</div>
+      <p class="src">A founder's real post title, r/startups, September 2026</p>
+      <h1 id="h1"><span class="line"><span>Built the thing.</span></span><span class="line"><span>Nobody will</span></span><span class="line"><span><em>go first.</em></span></span></h1>
+      <p class="lede">ChameleonCo becomes the expert your business is missing, finds your first buyers by name, and writes the first message. Nothing sends until you tap.</p>
+      <form class="ask-form" action="/app" method="get">
+        <label for="site-hero" class="sr" style="position:absolute;left:-9999px">Your website</label>
+        <input id="site-hero" name="q" type="text" inputmode="url" autocomplete="url" placeholder="yourcompany.com" required minlength="4">
+        <button class="go" type="submit">Find my buyers</button>
+      </form>
+      <p class="fine">Plans in about 3 minutes. <b>Then $5 a plan.</b></p>
+    </div>
+    <div class="hero-cham" id="heroCham">
+      <div class="halo"></div>
+      <div class="cham"><img src="/brand/mascot.png" alt="The ChameleonCo chameleon" width="512" height="512"><div class="tint"></div></div>
+      <div class="expert-tag" aria-live="polite">Becoming <b id="heroExpert">the researcher</b></div>
+    </div>
+  </div>
+  <div class="scroll-cue" aria-hidden="true">SCROLL</div>
+</section>
+
+<section class="run" id="run" aria-labelledby="run-title">
+  <div class="wrap run-head">
+    <p class="eyebrow">One night. Three real businesses.</p>
+    <h2 id="run-title">A different expert for every business.</h2>
+    <p>Most AI tools give everyone the same assistant. ChameleonCo reads your business first, then becomes the one expert it needs. These are real runs from this week.</p>
+  </div>
+  <div class="track-outer">
+    <div class="track" id="track">
+      <article class="panel" style="--c:var(--leaf)">
+        <div class="cham" data-morph="researcher"><img src="/brand/mascot.png" alt="" width="512" height="512"><div class="tint"></div></div>
+        <div class="who">
+          <div class="browser"><div class="bar"><i></i><i></i><i></i><span>a health startup</span></div><p>Selling a claims service to patients</p></div>
+          <span class="became">Became the researcher</span>
+          <p class="finding">Seven real buyers by name, each with a source. Plain Claude, same prompt: zero.</p>
+          <p class="proofnote">Blind judge, 28 Sept: 38/50 vs 31/50. Named contacts checked on the web.</p>
+        </div>
+      </article>
+      <article class="panel" style="--c:var(--leaf)">
+        <div class="cham" data-morph="offer"><img src="/brand/mascot.png" alt="" width="512" height="512"><div class="tint"></div></div>
+        <div class="who">
+          <div class="browser"><div class="bar"><i></i><i></i><i></i><span>carbon.ms</span></div><p>Manufacturing ERP, MES and QMS on one system</p></div>
+          <span class="became">Became the offer strategist</span>
+          <p class="finding">"Your customer logos already name your buyer: hard-tech hardware teams. The page speaks to ten industries."</p>
+          <p class="proofnote">Draft #23, ready for the founder's tap.</p>
+        </div>
+      </article>
+      <article class="panel" style="--c:var(--leaf)">
+        <div class="cham" data-morph="copywriter"><img src="/brand/mascot.png" alt="" width="512" height="512"><div class="tint"></div></div>
+        <div class="who">
+          <div class="browser"><div class="bar"><i></i><i></i><i></i><span>novrl.com</span></div><p>Interactive product demos from screenshots</p></div>
+          <span class="became">Became the copywriter</span>
+          <p class="finding">"The offer is fine. The homepage talks to everyone who makes a demo, not the founder who needs one to get paid."</p>
+          <p class="proofnote">Draft #16, ready for the founder's tap.</p>
+        </div>
+      </article>
+      <article class="panel yours" style="--c:var(--leaf)">
+        <div class="cham"><img src="/brand/mascot.png" alt="" width="512" height="512"><div class="tint"></div></div>
+        <div class="who">
+          <div class="browser"><div class="bar"><i></i><i></i><i></i><span>yours</span></div><p>Your site goes here</p></div>
+          <p class="finding">Which expert does yours need? It decides after it reads you.</p>
+          <a class="pill-btn" href="#ask" style="align-self:flex-start">Find out in 3 minutes</a>
+        </div>
+      </article>
+    </div>
+  </div>
+  <div class="run-progress" aria-hidden="true"><b id="runBar"></b></div>
+</section>
+
+<section class="brief" id="brief" aria-labelledby="brief-title">
+  <div class="wrap">
+    <div class="copy">
+      <p class="eyebrow">While you sleep</p>
+      <h2 id="brief-title">It works the night shift. You get a 9 AM brief.</h2>
+      <p>Every draft names the buyer, the source and why them. You read it, you tap Approve, it sends from your own email. Nothing goes out without you.</p>
+    </div>
+    <div class="phone" id="phone" aria-label="A Telegram message from ChameleonCo">
+      <div class="screen">
+        <div class="tg"><img src="/brand/mascot.png" alt="" width="30" height="30"><div>ChameleonCo<small>bot</small></div></div>
+        <div class="msgs">
+          <div class="bubble" data-pop>Good morning. <b>2 drafts ready</b>, 3 sent this week. Your move on #23.<span class="time">9:00</span></div>
+          <div class="bubble" data-pop><b>#23</b> <i>as the offer strategist</i><div class="to"><b>To:</b> Carbon (carbon.ms)</div>Your logos are one buyer: hard-tech hardware teams like Kform, Sygnal and M3 Aerospace. The page then speaks to ten industries...<span class="time">9:00</span></div>
+          <div class="keys" data-pop><span class="ok">Approve &amp; send</span><span>Edit</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="proof wrap" aria-labelledby="proof-title">
+  <p class="eyebrow">Measured, not claimed</p>
+  <h2 id="proof-title">Why founders stall, and what it does about it.</h2>
+  <div class="stats">
+    <div class="stat"><div class="n"><span data-count="85">85</span><small>/112</small></div><p>founders who posted about no customers were stuck on the first buyer, not the product.</p><span class="how">Read by hand, Sept 2026</span></div>
+    <div class="stat"><div class="n"><span data-count="38">38</span><small>/50</small></div><p>blind judge score. Plain Claude on the same prompt: 31.</p><span class="how">One run each, web search on</span></div>
+    <div class="stat"><div class="n"><span data-count="7">7</span><small> vs 0</small></div><p>real buyers named, with sources, against plain Claude.</p><span class="how">Same prompt, 28 Sept</span></div>
+    <div class="stat"><div class="n">$0.<span data-count="62">62</span></div><p>of AI to write a plan. A plan sells for $5.</p><span class="how">Measured on a real report</span></div>
+  </div>
+</section>
+
+<section class="record wrap" aria-labelledby="record-title">
+  <div class="box">
+    <div>
+      <p class="eyebrow">Where this is going</p>
+      <h2 id="record-title">Every run records which expert moved which result.</h2>
+      <p>A role switch is a prompt anyone can copy. The record of which expert, for which business, actually got a yes is not. Over enough founders, that tells us which team gets someone their first customer.</p>
+    </div>
+    <div class="ledger" aria-label="Example of the record">
+      <div><b class="m">#23</b> carbon.ms &nbsp;<b class="o">offer</b> &nbsp;<b class="m">sent: waiting</b></div>
+      <div><b class="m">#16</b> novrl.com &nbsp;<b class="c">copywriter</b> &nbsp;<b class="m">ready</b></div>
+      <div><b class="m">#19</b> dicty.io &nbsp;<b class="c">copywriter</b> &nbsp;<b class="m">ready</b></div>
+      <div><b class="m">health</b> &nbsp;<b class="r">researcher</b> &nbsp;<b class="m">7 buyers</b></div>
+    </div>
+  </div>
+</section>
+
+<section class="ask wrap" id="ask" aria-labelledby="ask-title">
+  <p class="eyebrow">Your turn</p>
+  <h2 id="ask-title">Paste your site. Meet your first buyers.</h2>
+  <div class="row">
+    <div>
+      <form class="ask-form" action="/app" method="get">
+        <label for="site-ask" style="position:absolute;left:-9999px">Your website</label>
+        <input id="site-ask" name="q" type="text" inputmode="url" autocomplete="url" placeholder="yourcompany.com" required minlength="4">
+        <button class="go" type="submit">Find my buyers</button>
+      </form>
+      <p class="fine"><b>Free for the first 30 founders in this room.</b> Then $5 a plan. Nothing is sent to anyone without you.</p>
+    </div>
+    <div class="other">
+      <span>Or on your phone:</span>
+      <span>Telegram <a href="https://t.me/chameleoncobot">@chameleoncobot</a></span>
+      <span>Text your site to <a href="sms:+15104013633">(510) 401-3633</a></span>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer><div class="wrap"><span>ChameleonCo. Two humans, two AI co-founders.</span><span>Every message is a draft until you tap.</span></div></footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/lenis@1.1.13/dist/lenis.min.js"></script>
+<script>
+// Morph: particles sampled from the mascot and from four expert shapes, eased between them.
+window.Morph = (function(){
+  var S = 400;
+  var shapes = {
+    researcher: function(g){ g.lineWidth = 30; g.beginPath(); g.arc(170, 168, 88, 0, Math.PI * 2); g.stroke(); g.lineWidth = 40; g.beginPath(); g.moveTo(236, 234); g.lineTo(326, 324); g.stroke(); },
+    offer: function(g){ g.beginPath(); g.moveTo(74, 210); g.lineTo(192, 92); g.lineTo(318, 92); g.lineTo(318, 218); g.lineTo(200, 336); g.closePath(); g.fill(); g.globalCompositeOperation = 'destination-out'; g.beginPath(); g.arc(270, 140, 22, 0, Math.PI * 2); g.fill(); },
+    copywriter: function(g){ g.beginPath(); g.moveTo(200, 56); g.lineTo(276, 208); g.lineTo(200, 344); g.lineTo(124, 208); g.closePath(); g.fill(); g.globalCompositeOperation = 'destination-out'; g.lineWidth = 10; g.beginPath(); g.moveTo(200, 192); g.lineTo(200, 340); g.stroke(); g.beginPath(); g.arc(200, 188, 17, 0, Math.PI * 2); g.fill(); },
+    closer: function(g){ g.lineWidth = 26; g.beginPath(); g.arc(200, 200, 134, 0, Math.PI * 2); g.stroke(); g.lineWidth = 38; g.beginPath(); g.moveTo(132, 204); g.lineTo(184, 256); g.lineTo(276, 150); g.stroke(); }
+  };
+  var names = { researcher: 'the researcher', offer: 'the offer strategist', copywriter: 'the copywriter', closer: 'the closer' };
+  var cache = {};
+  function sample(key, draw, n){
+    var id = key + n; if (cache[id]) return cache[id];
+    var c = document.createElement('canvas'); c.width = c.height = S;
+    var g = c.getContext('2d'); g.fillStyle = g.strokeStyle = '#000'; g.lineCap = g.lineJoin = 'round';
+    draw(g);
+    var d = g.getImageData(0, 0, S, S).data, pts = [];
+    for (var y = 1; y < S - 1; y += 1) for (var x = 1; x < S - 1; x += 1) {
+      if (key !== 'mascot' && (x % 2 || y % 2)) continue;
+      var o = (y * S + x) * 4; if (d[o + 3] <= 140) continue;
+      // The mascot is line art: its dark outline strokes draw the face, so sample those, not the fill.
+      if (key === 'mascot') { if ((d[o] * .3 + d[o + 1] * .59 + d[o + 2] * .11) < 110) pts.push([x, y]); }
+      else pts.push([x, y]);
+    }
+    var out = [];
+    for (var i = 0; i < n; i++) { var p = pts[(i * 7919) % pts.length] || [S / 2, S / 2]; out.push([p[0] + ((i * 37) % 7 - 3) * 0.45, p[1] + ((i * 53) % 7 - 3) * 0.45]); }
+    return (cache[id] = out);
+  }
+  function ease(t){ return t < .5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2; }
+  function setup(cham, n){
+    var img = cham.querySelector('img'), canvas = document.createElement('canvas');
+    canvas.width = canvas.height = S; canvas.setAttribute('aria-hidden', 'true');
+    var ctx = canvas.getContext('2d');
+    var ink = getComputedStyle(cham).getPropertyValue('--leaf').trim() || '#1F7A45';
+    function ready(fn){ if (img.complete && img.naturalWidth) fn(); else img.addEventListener('load', fn, { once: true }); }
+    function mascot(){ return sample('mascot', function(g){ g.drawImage(img, 0, 0, S, S); }, n); }
+    function paint(a, b, t, now){
+      ctx.clearRect(0, 0, S, S); ctx.fillStyle = ink;
+      for (var i = 0; i < n; i++) {
+        var k = Math.min(1, Math.max(0, (t * 1.25) - (i % 50) * 0.005)), e = ease(k);
+        var swirl = Math.sin(e * Math.PI) * 34, ang = i * 2.39996;
+        var jit = now ? Math.sin(now / 700 + i) * (1 - Math.sin(e * Math.PI)) * 0.9 : 0;
+        ctx.fillRect(a[i][0] + (b[i][0] - a[i][0]) * e + Math.cos(ang) * swirl + jit, a[i][1] + (b[i][1] - a[i][1]) * e + Math.sin(ang) * swirl - jit, 2.1, 2.1);
+      }
+    }
+    return { ready: ready, mascot: mascot, paint: paint, mount: function(){ cham.appendChild(canvas); cham.classList.add('live'); } };
+  }
+  function hero(cham, label){
+    if (!cham) return;
+    var m = setup(cham, 3200);
+    m.ready(function(){
+      var seq;
+      try { seq = [['Chameleon', m.mascot()]]; } catch (e) { return; }
+      ['researcher', 'offer', 'copywriter', 'closer'].forEach(function(key){ seq.push([names[key], sample(key, shapes[key], 3200)]); if (key !== 'closer') seq.push(['Chameleon', seq[0][1]]); });
+      m.mount();
+      var from = 0, t0 = performance.now(), HOLD = 1500, MOVE = 1400, next = 'the researcher';
+      function frame(now){
+        var el = now - t0;
+        if (el > HOLD + MOVE) { from = (from + 1) % seq.length; t0 = now; el = 0; }
+        var to = (from + 1) % seq.length;
+        for (var j = to; j !== from; j = (j + 1) % seq.length) if (seq[j][0] !== 'Chameleon') { if (label && el > HOLD * 0.5 && label.textContent !== seq[j][0]) label.textContent = seq[j][0]; break; }
+        m.paint(seq[from][1], seq[to][1], el <= HOLD ? 0 : (el - HOLD) / MOVE, now);
+        requestAnimationFrame(frame);
+      }
+      requestAnimationFrame(frame);
+    });
+  }
+  function scrub(cham, key, bind){
+    if (!shapes[key]) return;
+    var m = setup(cham, 1600);
+    m.ready(function(){
+      var a, b;
+      try { a = m.mascot(); b = sample(key, shapes[key], 1600); } catch (e) { return; }
+      m.mount(); m.paint(a, b, 0, 0);
+      bind(function(p){ m.paint(a, b, p, 0); });
+    });
+  }
+  return { hero: hero, scrub: scrub };
+})();
+</script>
+<script>
+(function(){
+  'use strict';
+  var top = document.getElementById('top');
+  var onScroll = function(){ top.classList.toggle('scrolled', window.scrollY > 20); };
+  window.addEventListener('scroll', onScroll, { passive: true }); onScroll();
+
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var JUMP = new URLSearchParams(location.search).get('jump');
+
+  // Hero chameleon: dissolves into each expert it can become, then back. Shape only, one colour.
+  var heroName = document.getElementById('heroExpert');
+  if (!reduce && window.Morph) window.Morph.hero(document.querySelector('#heroCham .cham'), heroName);
+
+  if (!window.gsap || !window.ScrollTrigger || reduce) { window.__ready = true; return; }
+  gsap.registerPlugin(ScrollTrigger);
+
+  if (JUMP === null && window.Lenis) {
+    var lenis = new Lenis({ lerp: 0.09, smoothWheel: true });
+    lenis.on('scroll', ScrollTrigger.update);
+    gsap.ticker.add(function(t){ lenis.raf(t * 1000); });
+    gsap.ticker.lagSmoothing(0);
+    document.querySelectorAll('a[href^="#"]').forEach(function(a){ a.addEventListener('click', function(ev){ var el = document.querySelector(a.getAttribute('href')); if (el) { ev.preventDefault(); lenis.scrollTo(el, { offset: -70 }); } }); });
+  } else if (JUMP !== null) { history.scrollRestoration = 'manual'; }
+
+  // Hero headline: lines rise into place (visible at rest: it runs once on load).
+  gsap.from('#h1 .line > span', { yPercent: 110, duration: 1.1, ease: 'power4.out', stagger: .12, delay: .15 });
+
+  // 1. Pinned scenes first (creation order is refresh order).
+  var track = document.getElementById('track');
+  var distance = function(){ return Math.max(0, track.scrollWidth - window.innerWidth); };
+  var run = gsap.to(track, { x: function(){ return -distance(); }, ease: 'none',
+    scrollTrigger: { trigger: '#run', start: 'top top', end: function(){ return '+=' + distance(); }, pin: true, scrub: .6, invalidateOnRefresh: true,
+      onUpdate: function(self){ document.getElementById('runBar').style.width = (self.progress * 100).toFixed(1) + '%'; } } });
+
+  // Each chameleon takes its colour as its business reaches the middle of the screen.
+  gsap.utils.toArray('.panel').forEach(function(panel){
+    var cham = panel.querySelector('.cham[data-morph]');
+    if (cham && window.Morph) window.Morph.scrub(cham, cham.dataset.morph, function(update){
+      ScrollTrigger.create({ trigger: panel, containerAnimation: run, start: 'left 85%', end: 'left 35%', scrub: true, onUpdate: function(self){ update(self.progress); } });
+    });
+    gsap.from(panel.querySelectorAll('.became, .finding'), { y: 18, opacity: 0, stagger: .08, ease: 'power2.out',
+      scrollTrigger: { trigger: panel, containerAnimation: run, start: 'left 75%', end: 'left 45%', scrub: true } });
+  });
+
+  // 2. Ambient triggers after the pin.
+  gsap.from('#phone', { y: 120, rotate: -4, ease: 'none', scrollTrigger: { trigger: '#brief', start: 'top 85%', end: 'center center', scrub: true } });
+  gsap.from('#phone [data-pop]', { y: 24, opacity: 0, stagger: .25, ease: 'none', scrollTrigger: { trigger: '#brief', start: 'top 55%', end: 'center 45%', scrub: true } });
+  document.querySelectorAll('[data-count]').forEach(function(el){
+    var end = +el.dataset.count, obj = { v: 0 };
+    ScrollTrigger.create({ trigger: el, start: 'top 88%', once: true, onEnter: function(){
+      gsap.to(obj, { v: end, duration: 1.2, ease: 'power2.out', onUpdate: function(){ el.textContent = Math.round(obj.v); } });
+    } });
+  });
+
+  window.addEventListener('load', function(){
+    ScrollTrigger.refresh();
+    if (JUMP !== null) { window.scrollTo(0, +JUMP || 0); ScrollTrigger.update(); }
+    window.__ready = true;
+  });
+})();
+</script>
+</body>
+</html>
